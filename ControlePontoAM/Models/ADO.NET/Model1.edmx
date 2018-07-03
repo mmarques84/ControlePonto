@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ControlePontoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cadastrohora">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigo_usuario" Type="int" Nullable="false" />
+          <Property Name="horaEntradaInicio" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="horaSaidaInicio" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="horaEntradaTarde" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="horaSaidaTarde" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="observacao" Type="varchar" MaxLength="250" />
+          <Property Name="dataAlteracao" Type="datetime" />
+          <Property Name="dia" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="mes" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="ano" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="login" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="senha" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CadastroHora_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="cadastrohora" Type="Self.cadastrohora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="cadastrohora">
+              <PropertyRef Name="codigo_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CadastroHora_usuario1">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="cadastrohora" Type="Self.cadastrohora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="cadastrohora">
+              <PropertyRef Name="codigo_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlePontoModelStoreContainer">
+          <EntitySet Name="cadastrohora" EntityType="Self.cadastrohora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CadastroHora_usuario" Association="Self.FK_CadastroHora_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="cadastrohora" EntitySet="cadastrohora" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CadastroHora_usuario1" Association="Self.FK_CadastroHora_usuario1">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="cadastrohora" EntitySet="cadastrohora" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ControlePontoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cadastrohora">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo_usuario" Type="Int32" Nullable="false" />
+          <Property Name="horaEntradaInicio" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="horaSaidaInicio" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="horaEntradaTarde" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="horaSaidaTarde" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="observacao" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="dataAlteracao" Type="DateTime" Precision="3" />
+          <Property Name="dia" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="mes" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ano" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_CadastroHora_usuario" FromRole="cadastrohora" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="codigo" />
+          </Key>
+          <Property Name="codigo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="login" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="senha" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="cadastrohora" Relationship="Self.FK_CadastroHora_usuario" FromRole="usuario" ToRole="cadastrohora" />
+        </EntityType>
+        <Association Name="FK_CadastroHora_usuario">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="cadastrohora" Type="Self.cadastrohora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="cadastrohora">
+              <PropertyRef Name="codigo_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ControlePontoEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cadastrohora" EntityType="Self.cadastrohora" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" />
+          <AssociationSet Name="FK_CadastroHora_usuario" Association="Self.FK_CadastroHora_usuario">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="cadastrohora" EntitySet="cadastrohora" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ControlePontoModelStoreContainer" CdmEntityContainer="ControlePontoEntities2">
+          <EntitySetMapping Name="cadastrohora">
+            <EntityTypeMapping TypeName="ControlePontoModel.cadastrohora">
+              <MappingFragment StoreEntitySet="cadastrohora">
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+                <ScalarProperty Name="horaEntradaInicio" ColumnName="horaEntradaInicio" />
+                <ScalarProperty Name="horaSaidaInicio" ColumnName="horaSaidaInicio" />
+                <ScalarProperty Name="horaEntradaTarde" ColumnName="horaEntradaTarde" />
+                <ScalarProperty Name="horaSaidaTarde" ColumnName="horaSaidaTarde" />
+                <ScalarProperty Name="observacao" ColumnName="observacao" />
+                <ScalarProperty Name="dataAlteracao" ColumnName="dataAlteracao" />
+                <ScalarProperty Name="dia" ColumnName="dia" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="ano" ColumnName="ano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuario">
+            <EntityTypeMapping TypeName="ControlePontoModel.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="senha" ColumnName="senha" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

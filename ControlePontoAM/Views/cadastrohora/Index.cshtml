@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ControlePontoAM.Models.ADO.NET.cadastrohora>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+
+    
+        <th>
+            @Html.DisplayNameFor(model => model.horaEntradaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.horaSaidaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.horaEntradaTarde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.horaSaidaTarde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.observacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dataAlteracao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ano)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.horaEntradaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.horaSaidaInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.horaEntradaTarde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.horaSaidaTarde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.observacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dataAlteracao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ano)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.codigo }) |
+            @Html.ActionLink("Details", "Details", new { id = item.codigo }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.codigo })
+        </td>
+    </tr>
+    }
+
+</table>
+
