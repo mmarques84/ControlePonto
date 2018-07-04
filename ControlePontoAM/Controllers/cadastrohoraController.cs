@@ -13,10 +13,11 @@ namespace ControlePontoAM.Controllers
     public class cadastrohoraController : Controller
     {
         private ControlePontoEntities2 db = new ControlePontoEntities2();
-
+        //teste git
         // GET: cadastrohora
         public ActionResult Index()
         {
+        
             var cadastrohora = db.cadastrohora.Include(c => c.usuario);
             return View(cadastrohora.ToList());
         }
