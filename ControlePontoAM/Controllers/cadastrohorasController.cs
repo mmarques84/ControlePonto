@@ -18,6 +18,35 @@ namespace ControlePontoAM.Controllers
         // GET: cadastrohoras
         public ActionResult Index()
         {
+            cadastrohora cadhora = new cadastrohora();
+            DateTime datames = DateTime.Now;          
+           // var result= primeiroDiaDoMes.DayOfWeek;
+            DateTime ultimoDiaDoMes = new DateTime(datames.Year, datames.Month, DateTime.DaysInMonth(datames.Year, datames.Month));
+            var primeirodia =new DateTime(datames.Year, datames.Month, 1).ToString("dd");
+            var Ultimodia = new DateTime(datames.Year, datames.Month, DateTime.DaysInMonth(datames.Year, datames.Month)).ToString("dd");
+            int contprimeirodia=Convert.ToInt32(primeirodia);
+            int contultimodia = Convert.ToInt32(Ultimodia);
+
+            var result = (from c in db.cadastrohora
+                                                             where c.mes == "07"
+                                                             select c).FirstOrDefault();
+            if (result==null )
+            {
+                while (contprimeirodia <= contultimodia)
+                {
+                    cadhora.dia = Convert.ToString(contprimeirodia);
+                    cadhora.mes = "07";
+                    cadhora.ano = "2018";
+                    cadhora.codigo_usuario = 1;
+                    cadhora.horaEntradaInicio = "";
+                    cadhora.horaEntradaTarde = "";
+                    cadhora.horaSaidaInicio = "";
+                    cadhora.horaSaidaTarde = "";
+                    db.cadastrohora.Add(cadhora);
+                    db.SaveChanges();
+                    contprimeirodia = contprimeirodia + 1;
+                }
+            }
             var cadastrohora = db.cadastrohora.Include(c => c.usuario);
             return View(db.cadastrohora.ToList());
         }
@@ -61,7 +90,31 @@ namespace ControlePontoAM.Controllers
             ViewBag.codigo_usuario = new SelectList(db.usuario, "codigo", "nome", cadastrohora.codigo_usuario);
             return View(cadastrohora);
         }
+        public ActionResult CadastroHoras()
+        {
 
+            var cadastrohora = db.cadastrohora.Include(c => c.usuario);
+            return View(cadastrohora.ToList());
+        }
+        [HttpPost]
+        public ActionResult Update(cadastrohora cadastrohora)
+        {
+            using (Contexto entities = new Contexto())
+            {
+                cadastrohora updatedcadastrohora = (from c in entities.cadastrohora
+                                                    where c.codigo == cadastrohora.codigo
+                                                    select c).FirstOrDefault();
+                updatedcadastrohora.horaEntradaInicio = cadastrohora.horaEntradaInicio;
+                updatedcadastrohora.horaSaidaInicio = cadastrohora.horaSaidaInicio;
+                updatedcadastrohora.horaEntradaTarde = cadastrohora.horaEntradaTarde;
+                updatedcadastrohora.horaSaidaTarde = cadastrohora.horaSaidaTarde;
+                updatedcadastrohora.observacao = cadastrohora.observacao;
+
+                entities.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
         // GET: cadastrohoras/Edit/5
         public ActionResult Edit(int? id)
         {

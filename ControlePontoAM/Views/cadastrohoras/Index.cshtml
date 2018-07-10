@@ -1,15 +1,17 @@
 ﻿@model IEnumerable<ControlePontoAM.Models.entidades.cadastrohora>
 
 @{
-    ViewBag.Title = "Index";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-3.3.1.min.js")"></script>
+
 @{
-    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 10,
+    var grid = new WebGrid(Model, canPage: true, rowsPerPage: 31,
     selectionFieldName: "selectedRow", ajaxUpdateContainerId: "gridContent");
     grid.Pager(WebGridPagerModes.NextPrevious);}
+<script src="~/Scripts/bootbox.min.js"></script>
 <style type="text/css">
     .edit-mode {
     }
@@ -56,7 +58,7 @@
     }
 
     .webgrid-row-style {
-        padding: 3px 7px 2px;
+        padding: 2px 4px 2px;
     }
 
     .webgrid-alternating-row {
@@ -65,11 +67,15 @@
     }
 
     .col1Width {
-        width: 65px;
+        width: 40px;
     }
 
     .col2Width {
-        width: 220px;
+        width: 40px;
+    }
+
+    .col3Width {
+        width: 80px;
     }
 </style>
 <br />
@@ -91,125 +97,79 @@
             rowStyle: "webgrid-row-style",
             mode: WebGridPagerModes.All,
             columns: grid.Columns(
-            grid.Column("ID", format: @<text><span class="display-mode">@item.codigo</span>
-            <label id="EmpId" class="edit-mode">@item.codigo</label></text>,
-                     style: "col1Width"),
-                     grid.Column("Nome", "Nome", format: @<text><span class="display-mode">
-                            <label id="lblName">@item.usuario.nome</label>
-                        </span>
-                        <input type="text" id="Name" value="@item.usuario.nome" class="edit-mode" /></text>, style: "col2Width"),
+            grid.Column("codigo", format: @<text><span class="display-none">@item.codigo</span>
+            <label id="codigo" class="edit-mode">@item.codigo</label></text>,
+                                style: "col1Width"),
+                                    grid.Column("dia", format: @<text><span class="display-none">@item.dia</span>
+                                    <label id="dia" class="edit-mode">@item.dia</label></text>,
+                       style: "col1Width"),
+                       grid.Column("Nome", format: @<text><span class="display-mode">@item.usuario.nome</span>
+                    <label id="lblusuarionome" class="edit-mode">@item.usuario.nome</label></text>,
+            style: "col1Width"),
 
-                             grid.Column("horaEntradaInicio", "horaEntradaInicio", format: @<text> <span class="display-mode">
-                                    <label id="lblhoraEntradaInicio">@item.horaEntradaInicio</label>
-                                </span>
-                                <input type="text" id="horaEntradaInicio" value="@item.horaEntradaInicio" class="edit-mode" />
-                            </text>, style: "col2Width"),
 
-                                     grid.Column("horaSaidaInicio", "horaSaidaInicio", format: @<text> <span class="display-mode">
-                                            <label id="lblhoraSaidaInicio">@item.horaSaidaInicio</label>
-                                        </span>
-                                        <input type="text" id="horaSaidaInicio" value="@item.horaSaidaInicio" class="edit-mode" /></text>, style: "col2Width"),
+            grid.Column("horaEntradaInicio", "horaEntradaInicio", format: @<text> <span class="display-mode">
+                    <label id="lblhoraEntradaInicio">@item.horaEntradaInicio</label>
+                </span>
+                <input type="text" id="horaEntradaInicio" value="@item.horaEntradaInicio" class="edit-mode" />
+            </text>, style: "col2Width"),
 
-                                             grid.Column("Action", format: @<text>
-                                                <button class="btn-sm btn-info edit-user display-mode"> <span class="glyphicon glyphicon-refresh"></span> Alterar</button>
+          grid.Column("horaSaidaInicio", "horaSaidaInicio", format: @<text> <span class="display-mode">
+                <label id="lblhoraSaidaInicio">@item.horaSaidaInicio</label>
+            </span>
+            <input type="text" id="horaEntradaTarde" value="@item.horaEntradaTarde" class="edit-mode" /></text>, style: "col2Width"),
+ grid.Column("horaEntradaTarde", "horaEntradaTarde", format: @<text> <span class="display-mode">
+        <label id="lblhoraEntradaTarde">@item.horaEntradaTarde</label>
+    </span>
+    <input type="text" id="horaSaidaInicio" value="@item.horaEntradaTarde" class="edit-mode" /></text>, style: "col2Width"),
+    grid.Column("horaSaidaTarde", "horaSaidaTarde", format: @<text> <span class="display-mode">
+            <label id="lblhoraSaidaTarde">@item.horaSaidaTarde</label>
+        </span>
+        <input type="text" id="horaSaidaTarde" value="@item.horaSaidaTarde" class="edit-mode" /></text>, style: "col2Width"),
+         grid.Column("observacao", "observacao", format: @<text> <span class="display-mode">
+                <label id="lblobservacao">@item.observacao</label>
+            </span>
+            <input type="text" id="observacao" value="@item.observacao" class="edit-mode" /></text>, style: "col2Width"),
 
-                                                <button class="btn-sm btn-success save-user edit-mode"><span class="glyphicon glyphicon-ok"></span></button>
-                                                <button class="btn-sm btn-danger cancel-user edit-mode"><span class="glyphicon glyphicon-remove"></span></button>
-                                            </text>, style: "col3Width", canSort: false)
-                                                                                     ))
+   grid.Column("Action", format: @<text>
+    <button class="btn-sm btn-info edit-user display-mode"> <span class="glyphicon glyphicon-refresh"></span> Alterar</button>
+
+    <button class="btn-sm btn-success save-user edit-mode"><span class="glyphicon glyphicon-ok"></span></button>
+    <button class="btn-sm btn-danger cancel-user edit-mode"><span class="glyphicon glyphicon-remove"></span></button>
+</text>, style: "col3Width", canSort: false)
+                                   ))
         </div>
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.usuario.nome)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.horaEntradaInicio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.horaSaidaInicio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.horaEntradaTarde)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.horaSaidaTarde)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.observacao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.dataAlteracao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.dia)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.mes)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ano)
-                </th>
-                <th></th>
-            </tr>
 
-            @foreach (var item in Model)
-            {
-                <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.usuario.nome)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.horaEntradaInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.horaSaidaInicio)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.horaEntradaTarde)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.horaSaidaTarde)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.observacao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.dataAlteracao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.dia)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.mes)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ano)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.codigo }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.codigo }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.codigo })
-                    </td>
-                </tr>
-            }
-
-        </table>
     </div>
 </div>
 
+<p>Content here. <a class="alert" href=#>Alert!</a></p>
+
 @section Scripts {
+
+
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/inputmask")
+    <script>
+        $(document).on("click", ".alert", function (e) {
+            bootbox.alert("Hello world!", function () {
+                console.log("Alert Callback");
+            });
+        });
+    </script>
+    <script >
+        $(document).ready(function () {
+            $("#lblhoraEntradaInicio").inputmask("99:99");
+            $("#horaEntradaInicio").inputmask("99:99");
+            $("#horaSaidaInicio").inputmask("99:99");
+            $("#horaEntradaTarde").inputmask("99:99");
+            $("#horaSaidaTarde").inputmask("99:99");
+            $("#horaEntradaInicio").inputmask("mask", { "mask": "99:99" }, { reverse: true });
 
+        });
+    </script>
 
-    <!-- bootstrap -->
-    <script type="text/javascript" src="~/Scripts/bootstrap.js"></script>
-    <!-- chamada da função -->
 
 
     <script type="text/javascript">
@@ -221,54 +181,67 @@
             });
             $('.save-user').on('click', function () {
                 var tr = $(this).parents('tr:first');
-                var EmpID = tr.find("#EmpId").html();
-                var EmpName = tr.find("#Name").val();
-                var EmpDesignation = tr.find("#Designation").val();
-                var EmpGender = tr.find("#Gender").val();
-                var EmpCity = tr.find("#City").val();
-                var EmpState = tr.find("#State").val();
-                var EmpZip = tr.find("#Zip").val();
+                var codigo = tr.find("#codigo").html();
+                var dia = tr.find("#dia").html();
+                var horaEntradaInicio = tr.find("#horaEntradaInicio").val();
+                var horaSaidaInicio = tr.find("#horaSaidaInicio").val();
+                var horaEntradaTarde = tr.find("#horaEntradaTarde").val();
+                var horaSaidaTarde = tr.find("#horaSaidaTarde").val();
+                var observacao = tr.find("#observacao").val();
 
                 //Creating Employee JSON object
                 var EmployeeModel =
                     {
-                        "Id": EmpID,
-                        "Name": EmpName,
-                        "Designation": EmpDesignation,
-                        "Gender": EmpGender,
-                        "City": EmpCity,
-                        "State": EmpState,
-                        "Zip": EmpZip
+                        "codigo": codigo,
+                        "dia": dia,
+                        "horaEntradaInicio": horaEntradaInicio,
+                        "horaSaidaInicio": horaSaidaInicio,
+                        "horaEntradaTarde": horaEntradaTarde,
+                        "horaSaidaTarde": horaSaidaTarde,
+                        "observacao": observacao
+
                     };
                 //Posting Employee object to controller's Update action method
                 $.ajax({
-                    url: '/Employee/Update',
+                    url: '/cadastrohoras/Update',
                     data: JSON.stringify(EmployeeModel),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     success: function (data) {
                         tr.find('.edit-mode, .display-mode').toggle();
-                        alert('Record updated Successfully!!');
+                        tr.find('.edit, .read').toggle();
+                        $('.edit').hide();
+                        tr.find('#lbldia').text(dia);
+                        tr.find('#lblhoraEntradaInicio').text(horaEntradaInicio);
+                        tr.find('#lblhoraSaidaInicio').text(horaSaidaInicio);
+                        tr.find('#lblhoraEntradaTarde').text(horaEntradaTarde);
+                        tr.find('#lblhoraSaidaTarde').text(horaSaidaTarde);
+                        tr.find('#lblobservacao').text(observacao);
+                        //alert('Horario cadastrado!!');
+                        bootbox.alert("Horario cadastrado", function () {
+                            console.log("Alert Callback");
+                        });
                     }
                 });
             });
 
             $('.edit-user').on('click', function () {
                 var tr = $(this).parents('tr:first');
-                var EmpID = tr.find("#EmpId").html();
-                var EmpName = tr.find("#Name").val();
-                var EmpDesignation = tr.find("#Designation").val();
-                var EmpGender = tr.find("#Gender").val();
-                var EmpCity = tr.find("#City").val();
-                var EmpState = tr.find("#State").val();
-                var EmpZip = tr.find("#Zip").val();
+                var codigo = tr.find("#codigo").html();
+                var horaEntradaInicio = tr.find("#horaEntradaInicio").val();
+                var horaSaidaInicio = tr.find("#horaSaidaInicio").val();
+                var horaEntradaTarde = tr.find("#horaSaidaInicio").val();
+                var horaSaidaTarde = tr.find("#horaSaidaInicio").val();
+                var observacao = tr.find("#observacao").val();
 
-                tr.find("#lblName").text(EmpName);
-                tr.find("#lblDesignation").text(EmpDesignation);
-                tr.find("#lblGender").text(EmpGender);
-                tr.find("#lblCity").text(EmpCity);
-                tr.find("#lblState").text(EmpState);
-                tr.find("#lblZip").text(EmpZip);
+
+                tr.find("#codigo").text(codigo);
+                tr.find("#lblhoraEntradaInicio").text(horaEntradaInicio);
+                tr.find("#lblhoraSaidaInicio").text(horaSaidaInicio);
+                tr.find("#lblhoraEntradaTarde").text(horaEntradaTarde);
+                tr.find("#lblhoraSaidaTarde").text(horaSaidaTarde);
+                tr.find('#lblobservacao').text(observacao);
+
             });
         })
     </script>

@@ -8,10 +8,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>cadastrohora</h4>
         <hr />
@@ -110,4 +110,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/inputmask")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#horaSaidaTarde").inputmask("99:99");
+            $("#lblhoraSaidaTarde").inputmask("mask", { "mask": "99:99" }, { reverse: true });
+
+        });
+    </script>
 }

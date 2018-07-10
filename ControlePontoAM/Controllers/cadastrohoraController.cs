@@ -17,11 +17,12 @@ namespace ControlePontoAM.Controllers
         // GET: cadastrohora
         public ActionResult Index()
         {
-        
+           
             var cadastrohora = db.cadastrohora.Include(c => c.usuario);
             return View(cadastrohora.ToList());
         }
 
+        
         // GET: cadastrohora/Details/5
         public ActionResult Details(int? id)
         {
@@ -81,6 +82,22 @@ namespace ControlePontoAM.Controllers
         // POST: cadastrohora/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [HttpPost]
+        public ActionResult Update(cadastrohora cadastrohora)
+        {
+            using (ControlePontoEntities2 entities = new ControlePontoEntities2())
+            {
+                cadastrohora updatedcadastrohora = (from c in entities.cadastrohoras
+                                            where c.codigo == cadastrohora.codigo
+                                            select c).FirstOrDefault();
+                updatedcadastrohora.horaEntradaInicio = cadastrohora.horaEntradaInicio;
+                updatedcadastrohora.horaSaidaInicio = cadastrohora.horaSaidaInicio;
+                entities.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "codigo,codigo_usuario,horaEntradaInicio,horaSaidaInicio,horaEntradaTarde,horaSaidaTarde,observacao,dataAlteracao,dia,mes,ano")] cadastrohora cadastrohora)
