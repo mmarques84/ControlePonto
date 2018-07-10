@@ -14,23 +14,50 @@ namespace ControlePontoAM.Controllers
     public class cadastrohorasController : Controller
     {
         private Contexto db = new Contexto();
+        #region transformarHoraSeg
+        public int transformarHoraSeg(string HORA)
+        {
+            int horaRetorno = Convert.ToInt32(HORA.Split(':')[0]);
+            int minRetorno = Convert.ToInt32(HORA.Split(':')[1]);
+            int conversaosegu = (horaRetorno * 3600) + (minRetorno * 60);
+            return conversaosegu;
+        }
+        #endregion
+        #region transformarsegHORA
+        public string transformarsegHORA(int? SEG)
+        {
+            int? horaRetorno = (SEG / 3600);
 
+            int? minRetorno = ((SEG - (horaRetorno * 60 * 60)) / 60);
+
+            String _minuto = "00" + Convert.ToString(minRetorno);
+            _minuto = _minuto.Substring(_minuto.Length - 2, 2);
+
+            String _hora = "00" + Convert.ToString(horaRetorno);
+            _hora = _hora.Substring(_hora.Length - 2, 2);
+            String conversaosegu = _hora + ":" + _minuto;
+            return conversaosegu;
+        }
+        #endregion
         // GET: cadastrohoras
         public ActionResult Index()
         {
+            
             cadastrohora cadhora = new cadastrohora();
-            DateTime datames = DateTime.Now;          
-           // var result= primeiroDiaDoMes.DayOfWeek;
+            DateTime datames = DateTime.Now;
+            // var result= primeiroDiaDoMes.DayOfWeek;
             DateTime ultimoDiaDoMes = new DateTime(datames.Year, datames.Month, DateTime.DaysInMonth(datames.Year, datames.Month));
-            var primeirodia =new DateTime(datames.Year, datames.Month, 1).ToString("dd");
+            var primeirodia = new DateTime(datames.Year, datames.Month, 1).ToString("dd");
             var Ultimodia = new DateTime(datames.Year, datames.Month, DateTime.DaysInMonth(datames.Year, datames.Month)).ToString("dd");
-            int contprimeirodia=Convert.ToInt32(primeirodia);
+            int contprimeirodia = Convert.ToInt32(primeirodia);
             int contultimodia = Convert.ToInt32(Ultimodia);
-
+            
             var result = (from c in db.cadastrohora
-                                                             where c.mes == "07"
-                                                             select c).FirstOrDefault();
-            if (result==null )
+                          where c.mes == "07"
+                          select c).FirstOrDefault();
+            ViewBag.nomeusuario = result.usuario.nome;
+            ViewBag.data = datames;
+            if (result == null)
             {
                 while (contprimeirodia <= contultimodia)
                 {

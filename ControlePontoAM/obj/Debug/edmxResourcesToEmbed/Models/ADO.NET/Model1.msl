@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ControlePontoModelStoreContainer" CdmEntityContainer="ControlePontoEntities2">
+    <EntitySetMapping Name="cadastrohora">
+      <EntityTypeMapping TypeName="ControlePontoModel.cadastrohora">
+        <MappingFragment StoreEntitySet="cadastrohora">
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+          <ScalarProperty Name="codigo_usuario" ColumnName="codigo_usuario" />
+          <ScalarProperty Name="horaEntradaInicio" ColumnName="horaEntradaInicio" />
+          <ScalarProperty Name="horaSaidaInicio" ColumnName="horaSaidaInicio" />
+          <ScalarProperty Name="horaEntradaTarde" ColumnName="horaEntradaTarde" />
+          <ScalarProperty Name="horaSaidaTarde" ColumnName="horaSaidaTarde" />
+          <ScalarProperty Name="observacao" ColumnName="observacao" />
+          <ScalarProperty Name="dataAlteracao" ColumnName="dataAlteracao" />
+          <ScalarProperty Name="dia" ColumnName="dia" />
+          <ScalarProperty Name="mes" ColumnName="mes" />
+          <ScalarProperty Name="ano" ColumnName="ano" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="usuario">
+      <EntityTypeMapping TypeName="ControlePontoModel.usuario">
+        <MappingFragment StoreEntitySet="usuario">
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+          <ScalarProperty Name="nome" ColumnName="nome" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="senha" ColumnName="senha" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
