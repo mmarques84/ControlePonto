@@ -23,6 +23,7 @@ namespace ControlePontoAM.Repositorio
         public string dia { get; set; }
         public string mes { get; set; }
         public string ano { get; set; }
+        public string horateste { get; set; }
 
         public virtual usuario usuarios { get; set; }
     }

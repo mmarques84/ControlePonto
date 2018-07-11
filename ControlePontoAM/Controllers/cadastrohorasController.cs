@@ -27,7 +27,6 @@ namespace ControlePontoAM.Controllers
         public string transformarsegHORA(int? SEG)
         {
             int? horaRetorno = (SEG / 3600);
-
             int? minRetorno = ((SEG - (horaRetorno * 60 * 60)) / 60);
 
             String _minuto = "00" + Convert.ToString(minRetorno);
@@ -39,10 +38,40 @@ namespace ControlePontoAM.Controllers
             return conversaosegu;
         }
         #endregion
+        public void calcularhoraExtra(cadastrohora cadastrohora)
+        {
+            //var horaseg = ((transformarHoraSeg(cadastrohora.horaEntradaInicio)- transformarHoraSeg(cadastrohora.horaSaidaInicio)) + (transformarHoraSeg(cadastrohora.horaEntradaTarde) - transformarHoraSeg(cadastrohora.horaSaidaTarde)) - transformarHoraSeg("08:00"));
+          
+            var result = (from c in db.cadastrohora                         
+                          select c).ToList();
+            int cont = result.Count;
+            while (cont != 0)
+            {
+                using (Contexto entities = new Contexto())
+                {
+                    cadastrohora updatedcadastrohora = (from c in entities.cadastrohora
+                                                        where c.codigo == cont
+                                                        select c).FirstOrDefault();
+                    if (String.IsNullOrWhiteSpace(updatedcadastrohora.horaEntradaInicio) != true && String.IsNullOrWhiteSpace(updatedcadastrohora.horaSaidaTarde) != true )
+                    {
+                        var horamanha = ((transformarHoraSeg(updatedcadastrohora.horaEntradaInicio) - transformarHoraSeg(updatedcadastrohora.horaSaidaInicio)));
+                        var horatarde = ((transformarHoraSeg(updatedcadastrohora.horaEntradaTarde) - transformarHoraSeg(updatedcadastrohora.horaSaidaTarde)));
+                        var Horariodia = transformarHoraSeg("08:00");
+                        //var totalhoras = (Horariodia-(-(horamanha) + -(horatarde)));
+                        var totalhorasteste = ( (-(horamanha) + -(horatarde))- Horariodia);                        
+                        //var horaextra = transformarsegHORA(totalhoras);
+                        var horaextrateste = transformarsegHORA(totalhorasteste);
+                        updatedcadastrohora.horateste = horaextrateste;
+                        entities.SaveChanges();
+                    }
+                }
+                cont = cont - 1;
+            }
+        }
         // GET: cadastrohoras
         public ActionResult Index()
         {
-            
+
             cadastrohora cadhora = new cadastrohora();
             DateTime datames = DateTime.Now;
             // var result= primeiroDiaDoMes.DayOfWeek;
@@ -51,10 +80,14 @@ namespace ControlePontoAM.Controllers
             var Ultimodia = new DateTime(datames.Year, datames.Month, DateTime.DaysInMonth(datames.Year, datames.Month)).ToString("dd");
             int contprimeirodia = Convert.ToInt32(primeirodia);
             int contultimodia = Convert.ToInt32(Ultimodia);
-            
+
             var result = (from c in db.cadastrohora
                           where c.mes == "07"
                           select c).FirstOrDefault();
+            if (String.IsNullOrWhiteSpace(result.horaEntradaInicio) != true && String.IsNullOrWhiteSpace(result.horaSaidaTarde) != true)
+            {
+                calcularhoraExtra(result);
+            }
             ViewBag.nomeusuario = result.usuario.nome;
             ViewBag.data = datames;
             if (result == null)
@@ -131,10 +164,11 @@ namespace ControlePontoAM.Controllers
                 cadastrohora updatedcadastrohora = (from c in entities.cadastrohora
                                                     where c.codigo == cadastrohora.codigo
                                                     select c).FirstOrDefault();
-                updatedcadastrohora.horaEntradaInicio = cadastrohora.horaEntradaInicio;
-                updatedcadastrohora.horaSaidaInicio = cadastrohora.horaSaidaInicio;
-                updatedcadastrohora.horaEntradaTarde = cadastrohora.horaEntradaTarde;
-                updatedcadastrohora.horaSaidaTarde = cadastrohora.horaSaidaTarde;
+                //updatedcadastrohora.horaEntradaInicio = cadastrohora.horaEntradaInicio;
+                updatedcadastrohora.horaEntradaInicio = (!string.IsNullOrEmpty(cadastrohora.horaEntradaInicio) ? cadastrohora.horaEntradaInicio : "");
+                updatedcadastrohora.horaSaidaInicio = (!string.IsNullOrEmpty(cadastrohora.horaSaidaInicio) ? cadastrohora.horaSaidaInicio : ""); //cadastrohora.horaSaidaInicio;
+                updatedcadastrohora.horaEntradaTarde = (!string.IsNullOrEmpty(cadastrohora.horaEntradaTarde) ? cadastrohora.horaEntradaTarde : ""); //cadastrohora.horaEntradaTarde;
+                updatedcadastrohora.horaSaidaTarde = (!string.IsNullOrEmpty(cadastrohora.horaSaidaTarde) ? cadastrohora.horaEntradaTarde : ""); //.horaSaidaTarde;
                 updatedcadastrohora.observacao = cadastrohora.observacao;
 
                 entities.SaveChanges();

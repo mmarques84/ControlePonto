@@ -22,6 +22,7 @@ namespace ControlePontoAM.Models.entidades
         public string dia { get; set; }
         public string mes { get; set; }
         public string ano { get; set; }
+        public string horateste { get; set; }
         [ForeignKey("codigo_usuario")]
         public virtual usuario usuario { get; set; }
     }
